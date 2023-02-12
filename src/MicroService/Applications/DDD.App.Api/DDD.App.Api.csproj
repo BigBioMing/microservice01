@@ -10,19 +10,29 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="DotNetCore.CAP" Version="7.0.3" />
+    <PackageReference Include="DotNetCore.CAP.RabbitMQ" Version="7.0.3" />
+    <PackageReference Include="MediatR" Version="11.1.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.2" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="7.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Applicationses\Commands\" />
-    <Folder Include="Applicationses\DomainEventHandlers\" />
-    <Folder Include="Applicationses\IntegrationEvents\" />
-    <Folder Include="Applicationses\Queries\" />
-    <Folder Include="Extensions\" />
     <Folder Include="Infrastructure\Auth\" />
     <Folder Include="Infrastructure\Caching\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Infrastructures\DDD.Infrastructure\DDD.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Shared\DDD.Shared.Infrastructure.Core\DDD.Shared.Infrastructure.Core.csproj" />
   </ItemGroup>
 
 </Project>

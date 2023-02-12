@@ -1,4 +1,5 @@
-﻿using DDD.Shared.Domain.Abstractions;
+﻿using DDD.Domain.Events;
+using DDD.Shared.Domain.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,17 +20,20 @@ namespace DDD.Domain.OrderAggregate
 
         protected Order() { }
 
-        public Order(string userId,string userName, int totalCount, Address address)
+        public Order(string userId, string userName, int totalCount, Address address)
         {
             this.UserId = userId;
             this.UserName = userName;
             this.TotalCount = totalCount;
             this.Address = address;
+
+            this.AddDomainEvents(new OrderCreatedDomainEvent(this));
         }
 
         public void ChangeAddress(Address address)
         {
             this.Address = address;
+            this.AddDomainEvents(new OrderAddressChangedDomainEvent(this));
         }
     }
 }

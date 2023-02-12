@@ -1,4 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using DDD.Shared.Infrastructure.Core.Extensions;
+using DotNetCore.CAP;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Collections.Generic;
@@ -10,15 +13,19 @@ namespace DDD.Shared.Infrastructure.Core
 {
     public class EFContext : DbContext, IUnitOfWork, ITransaction
     {
-        public EFContext(DbContextOptions options)
+        protected readonly IMediator _mediator;
+        protected readonly ICapPublisher _capBus;
+        public EFContext(DbContextOptions options, IMediator mediator, ICapPublisher capBus) : base(options)
         {
-
+            _mediator = mediator;
+            _capBus = capBus;
         }
 
         #region IUnitOfWork
         public async Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken)
         {
             var result = await base.SaveChangesAsync(cancellationToken);
+            await _mediator.DispatchDomainEventsAsync(this);
             return true;
         }
         #endregion
@@ -31,7 +38,7 @@ namespace DDD.Shared.Infrastructure.Core
         public async Task<IDbContextTransaction> BeginTransactionAsync()
         {
             if (_currentTransaction == null) return null;
-            _currentTransaction = await Database.BeginTransactionAsync();
+            _currentTransaction = await Database.BeginTransactionAsync(_capBus, autoCommit: false);
             return _currentTransaction;
         }
         public async Task CommitTransactionAsync(IDbContextTransaction transaction)

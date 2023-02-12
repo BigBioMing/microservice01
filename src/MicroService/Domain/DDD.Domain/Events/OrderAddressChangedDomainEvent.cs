@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace DDD.Domain.Events
 {
-    public class OrderCreatedDomainEvent : IDomainEvent
+    public class OrderAddressChangedDomainEvent : IDomainEvent
     {
         public Order Order { get; private set; }
-        public OrderCreatedDomainEvent(Order order)
+        public OrderAddressChangedDomainEvent(Order order)
         {
             Order = order;
         }

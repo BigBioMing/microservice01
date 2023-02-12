@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MediatR;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,23 @@ namespace DDD.Shared.Domain.Abstractions
         public override string ToString()
         {
             return $"Entity: {GetType().Name}] Keys = {string.Join(",", GetKeys())}";
+        }
+
+        private List<IDomainEvent> _domainEvents;
+        public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents?.AsReadOnly();
+        public List<IDomainEvent> GetDomainEvents() => _domainEvents;
+        public void AddDomainEvents(IDomainEvent domainEvent)
+        {
+            _domainEvents = _domainEvents ?? new List<IDomainEvent>();
+            _domainEvents.Add(domainEvent);
+        }
+        public void RemoveDomainEvents(IDomainEvent domainEvent)
+        {
+            _domainEvents?.Remove(domainEvent);
+        }
+        public void ClearDomainEvents()
+        {
+            _domainEvents?.Clear();
         }
     }
 

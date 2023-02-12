@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DDD.Domain.OrderAggregate;
+using DDD.Shared.Infrastructure.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +8,10 @@ using System.Threading.Tasks;
 
 namespace DDD.Infrastructure.Repositories
 {
-    internal class OrderRepository
+    public class OrderRepository : Repository<Order, long, DomainContext>, IOrderRepository
     {
+        public OrderRepository(DomainContext dbContext) : base(dbContext)
+        {
+        }
     }
 }

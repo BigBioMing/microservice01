@@ -12,10 +12,10 @@ namespace DDD.Shared.Infrastructure.Core.Behaviors
 {
     public class TransactionBehavior<TDbContext, TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TDbContext : EFContext where TRequest : IRequest<TResponse>
     {
-        ILogger _logger;
+        ILogger<TransactionBehavior<TDbContext, TRequest, TResponse>> _logger;
         TDbContext _dbContext;
 
-        public TransactionBehavior(ILogger logger, TDbContext dbContext)
+        public TransactionBehavior(ILogger<TransactionBehavior<TDbContext, TRequest, TResponse>> logger, TDbContext dbContext)
         {
             this._logger = logger;
             this._dbContext = dbContext;
